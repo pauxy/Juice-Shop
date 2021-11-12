@@ -8,4 +8,5 @@ for i in range(len(a)):
 for i in a[4:]:
     urll = url + i + "%2500.md"
     r = requests.get(urll, allow_redirects=True)
+    print(f"Downloaded {i}")
     open("data/" + i.split("/")[1], 'wb').write(r.content)

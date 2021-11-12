@@ -5,15 +5,18 @@ q = 1213107243921127189732367153161244042847242763370141092563454931230196437304
 e = 65537
 phi = (p - 1) * (q - 1)
 
+print("Breaking RSA key ...")
 d = pow(e, -1, phi)
 f = open("prerequisites/announcement_encrypted.md", "r")
 lines = f.readlines()
 sentence = ""
+print("Decoding announcemment_encrypted.md ...")
 for line in lines:
     c = int(line)
     m = pow(c, d, p * q)
     sentence += chr(m)
+print("File contents :")
 print(sentence)
 url = sentence.split("URL: ")
 r = requests.get("http://127.0.0.1:3000" + url[1])
-print("\nStatus :" + str(r.status_code))
+print("\nStatus: " + str(r.status_code))

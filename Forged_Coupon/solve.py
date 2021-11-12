@@ -14,8 +14,32 @@ data = {
         "deliveryMethodId": "1"
     }
 }
-headers={'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6eyJpZCI6MiwidXNlcm5hbWUiOiIiLCJlbWFpbCI6ImppbUBqdWljZS1zaC5vcCIsInBhc3N3b3JkIjoiZTU0MWNhN2VjZjcyYjhkMTI4NjQ3NGZjNjEzZTVlNDUiLCJyb2xlIjoiY3VzdG9tZXIiLCJkZWx1eGVUb2tlbiI6IiIsImxhc3RMb2dpbklwIjoiMC4wLjAuMCIsInByb2ZpbGVJbWFnZSI6ImFzc2V0cy9wdWJsaWMvaW1hZ2VzL3VwbG9hZHMvZGVmYXVsdC5zdmciLCJ0b3RwU2VjcmV0IjoiIiwiaXNBY3RpdmUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjEtMTEtMTIgMTU6MDU6NDAuOTI0ICswMDowMCIsInVwZGF0ZWRBdCI6IjIwMjEtMTEtMTIgMTU6MDU6NDAuOTI0ICswMDowMCIsImRlbGV0ZWRBdCI6bnVsbH0sImlhdCI6MTYzNjcyOTcyOCwiZXhwIjoxNjM2NzQ3NzI4fQ.yZE0Lo4nxeSChspIC5WIqpFv1coTlXYXNz4ewRQpPNYtIojm2djpOlHRVG2w4FMBngK0H_0CONK4PxVXIi39xYrz1XOBr5vUhF4MNb-5JKa2KWkfZRPsAwc2xEPwRcnCe1JQPGJm11GhP90flvoDiVerkeDAtGYUUrS7a1ERPB0'}
-url = "http://localhost:3000/rest/basket/2/checkout" # we buy for jim
+basket = {"ProductId": 32, "BasketId": "2", "quantity": 1}
+
+#get appropriate header
+f = open("prerequisites/jim", "r")
+a = "Bearer " + f.readline().strip()
+headers = {
+    'Authorization': a,
+    "Accept": "*/*",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate",
+    "Content-Length": "44",
+    "Origin": "http://127.0.0.1:3000",
+    "Connection": "keep-alive",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "no-cors",
+    "Sec-Fetch-Site": "same-origin",
+    "Pragma": "no-cache",
+    "Cache-Control": "no-cache"
+}
+
+basketurl = "http://127.0.0.1:3000/api/BasketItems/"
+url = "http://localhost:3000/rest/basket/2/checkout"  # we buy for jim
+# add basket item for jim
+#x = requests.post(basketurl, data=basket, headers=headers)
+#print(x.text)
+# generate coupon
 now = datetime.now()
 unencoded = now.strftime('%B')[:3].upper()
 year = now.year
@@ -26,12 +50,12 @@ curr = int(time.time())
 message = f"{encoded}-{curr}"
 message_bytes = message.encode('ascii')
 base64_bytes = base64.b64encode(message_bytes).decode()
-data["couponData"]=base64_bytes
+data["couponData"] = base64_bytes
 print(f"Encoded key: {base64_bytes}")
+
 # add coupon
-x = requests.post(url,data=data,headers=headers)
-print(x.text)
+x = requests.post(url, data=data, headers=headers)
+#print(x.text)
 res = x.json()
 code = res["orderConfirmation"]
 print(f"Confirmation code: {code}")
-
